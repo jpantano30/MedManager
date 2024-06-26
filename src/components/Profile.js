@@ -36,6 +36,8 @@ const Profile = ({ user }) => {
   if(!profile){ 
     return <div>No profile available.</div>
   }
+  // once the profile data is fetched and stored in state, the profile info is displayed. While it is being fetched (profile state is null) it will show this message. 
+  
 
   return (
     <div>

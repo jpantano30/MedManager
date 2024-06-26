@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { getMedications } from '../api/medications'
+import { format, isWithinInterval, addDays } from 'date-fns'
 
 const Home = ({ medications, setMedications }) => {
   const [interactions, setInteractions] = useState([])
@@ -30,6 +31,13 @@ const Home = ({ medications, setMedications }) => {
     }
   }
 
+  const upcomingRefills = medications.filter(med => {
+    const refillDate = new Date(med.refill_due_date)
+    const today = new Date()
+    const nextWeek = addDays(today, 7)
+    return isWithinInterval(refillDate, {start: today, end: nextWeek })
+  })
+
   return (
     <div>
       <div className='content'>
@@ -47,9 +55,9 @@ const Home = ({ medications, setMedications }) => {
         <div className='column'>
           <h2>Upcoming Refills</h2>
           <ul>
-            {medications.filter(med => med.refill_due_date).map((med) => (
+            {upcomingRefills.map((med) => (
               <li key={med.id}>
-                {med.name} - Refill due: {med.refill_due_date}
+                {med.name} - Refill due: {format(new Date(med.refill_due_date), 'MM-dd-yyyy')}
               </li>
             ))}
           </ul>

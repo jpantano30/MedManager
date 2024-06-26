@@ -25,7 +25,7 @@ const Login = ({ onLogin }) => {
   return (
     <form onSubmit={handleSubmit}>
       {error && <p className='error'>{error}</p>} 
-      {/* // */}
+      {/* JENA look this up! ^*/}
       <div>
         <label>Username</label>
         <input type='text' value={username} onChange={(e) => setUsername(e.target.value)} />
