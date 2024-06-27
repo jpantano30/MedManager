@@ -118,3 +118,16 @@ export const getUserProfile = async () => {
     })
     return response.json()
 }
+
+export const markMedicationAsTaken = async (id, date) => {
+  const response = await fetch(`${API_URL}/medications/${id}/mark_as_taken/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ date_taken: date }),
+  })
+  if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(`Network response was not ok: ${errorData.detail || 'Unknown error'}`)
+  }
+  return response.json()
+}

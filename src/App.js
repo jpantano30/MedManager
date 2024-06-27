@@ -15,7 +15,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Footer from './components/Footer'
 // Fetch Requests 
-import { getMedications } from './api/medications'
+import { getMedications, markMedicationAsTaken, addMedication, deleteMedication, updateMedication } from './api/medications'
 
 
 const App = () => {
@@ -29,7 +29,10 @@ const App = () => {
       const fetchMedications = async () => {
         try {
           const data = await getMedications()
-          setMedications(data)
+          setMedications(data.map(med => ({
+            ...med,
+            taken_days: Array.isArray(med.taken_days) ? med.taken_days : []
+          })))
         } catch (error) {
           console.log('Error fetching medications: ', error)
         }
@@ -37,6 +40,48 @@ const App = () => {
       fetchMedications()
     }
   }, [user])
+
+  const handleMarkAsTaken = async (id, date, checked) => {
+    try {
+      await markMedicationAsTaken(id, date)
+      if (checked) {
+        setMedications(
+          medications.map((med) =>
+            med.id === id ? { ...med, taken_days: [...med.taken_days, date] } : med
+          )
+        )
+      } else {
+        setMedications(
+          medications.map((med) =>
+            med.id === id ? { ...med, taken_days: med.taken_days.filter((d) => d !== date) } : med
+          )
+        )
+      }
+    } catch (error) {
+      console.error('Error marking medication as taken:', error)
+    }
+  }
+
+  const handleAdd = async (medication) => {
+    const newMedication = await addMedication(medication)
+    setMedications([...medications, {
+      ...newMedication,
+      taken_days: Array.isArray(newMedication.taken_days) ? newMedication.taken_days : []
+    }])
+  }
+
+  const handleDelete = async (id) => {
+    await deleteMedication(id)
+    setMedications(medications.filter(med => med.id !== id))
+  }
+
+  const handleEdit = async (id, medication) => {
+    const updatedMedication = await updateMedication(id, medication)
+    setMedications(medications.map(med => (med.id === id ? {
+      ...updatedMedication,
+      taken_days: Array.isArray(updatedMedication.taken_days) ? updatedMedication.taken_days : []
+    } : med)))
+  }
 
   const handleRegister = (user) => {
     setUser(user)
@@ -68,6 +113,7 @@ const App = () => {
               <Home 
                 medications={medications} 
                 setMedications={setMedications} 
+                handleMarkAsTaken={handleMarkAsTaken}
                 user={user} 
               />
             </PrivateRoute>
@@ -90,6 +136,10 @@ const App = () => {
               <MedManagement 
                 medications={medications} 
                 setMedications={setMedications}
+                handleAdd={handleAdd}
+                handleDelete={handleDelete}
+                handleEdit={handleEdit}
+                handleMarkAsTaken={handleMarkAsTaken}
                 user={user}
               />
             </PrivateRoute>
