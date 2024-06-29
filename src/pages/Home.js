@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
-import { getMedications } from '../api/medications'
+import { getMedications, markMedicationTaken } from '../api/medications'
 import { format, isWithinInterval, addDays } from 'date-fns'
 
-const Home = ({ medications, setMedications }) => {
+const Home = ({ medications, setMedications, onMedicationTaken }) => {
   const [interactions, setInteractions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [error, setError] = useState(null)
+
 
   useEffect(() => {
     const fetchMedications = async () => {
@@ -31,6 +32,16 @@ const Home = ({ medications, setMedications }) => {
     }
   }
 
+  const handleMedicationTaken = async (medicationId) => {
+    try{
+      await markMedicationTaken(medicationId)
+      onMedicationTaken(medicationId)
+    } catch (error) {
+      console.log('Error marking medication as taken: ', error)
+      setError('Error marking medication as taken. Please try again later.')
+    }
+  }
+
   const upcomingRefills = medications.filter(med => {
     const refillDate = new Date(med.refill_due_date)
     const today = new Date()
@@ -47,7 +58,12 @@ const Home = ({ medications, setMedications }) => {
           <ul>
             {medications.map((med) => (
               <li key={med.id}>
-                <input type='checkbox' /> {med.name} - {med.dosage}
+                <input 
+                  type='checkbox' 
+                  checked={med.taken}
+                  onChange={() => handleMedicationTaken(med.id)}
+                /> {' '}
+                {med.name} - {med.dosage}
               </li>
             ))}
           </ul>

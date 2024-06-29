@@ -15,7 +15,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Footer from './components/Footer'
 // Fetch Requests 
-import { getMedications } from './api/medications'
+import { getMedications, markMedicationTaken } from './api/medications'
 
 
 const App = () => {
@@ -54,6 +54,16 @@ const App = () => {
     navigate('/login')
   } 
 
+  const handleMedicationTaken = async (medicationId) => {
+    try {
+      await markMedicationTaken(medicationId)
+      const updatedMedication = medications.map((med) => med.id === medicationId ? { ...med, taken: true } : med )
+      setMedications(updatedMedication)
+    } catch (error) {
+      console.log('Error marking medication as taken: ', error)
+    }
+  }
+
   return (
     <div className='App'>
       <Header 
@@ -68,6 +78,7 @@ const App = () => {
               <Home 
                 medications={medications} 
                 setMedications={setMedications} 
+                onMedicationTaken={handleMedicationTaken}
                 user={user} 
               />
             </PrivateRoute>
@@ -79,6 +90,7 @@ const App = () => {
             <PrivateRoute>
               <ProfilePage 
                 user={user}
+                medications={medications}
               />
             </PrivateRoute>
           } 

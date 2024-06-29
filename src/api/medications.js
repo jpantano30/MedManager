@@ -125,3 +125,23 @@ export const getUserProfile = async () => {
     })
     return response.json()
 }
+
+export const markMedicationTaken = async (medicationId) => { 
+  try {
+    const response = await fetch(`${API_URL}/medications/${medicationId}/mark_taken/`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+    })
+
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(`Failed to mark medication as taken: ${errorData.detail || 'Unknown error'}`)
+    }
+
+    return response.json()
+
+  } catch (error) {
+    console.log('Error marking medication as taken:', error)
+    throw error
+  }
+}
