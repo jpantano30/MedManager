@@ -7,7 +7,6 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
   const [refillDueDate, setRefillDueDate] = useState('')
-  const [takenDays, setTakenDays] = useState([])
 
   useEffect(() => {
     if (editing && medication) {
@@ -17,8 +16,6 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
       setStartDate(medication.start_date || '')
       setEndDate(medication.end_date || '')
       setRefillDueDate(medication.refill_due_date || '')
-      setTakenDays(medication.taken_days || [])
-
     }
   }, [editing, medication])
 
@@ -32,7 +29,6 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
       start_date: startDate,
       end_date: endDate || null,
       refill_due_date: refillDueDate || null,
-      taken_days: takenDays,
       user: userId,
     }
     if (editing){
@@ -46,7 +42,6 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
     setStartDate('')
     setEndDate('')
     setRefillDueDate('')
-    setTakenDays([])
   }
 
   return (

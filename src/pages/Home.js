@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { getMedications } from '../api/medications'
 import { format, isWithinInterval, addDays } from 'date-fns'
 
-const Home = ({ medications, setMedications, handleMarkAsTaken }) => {
+const Home = ({ medications, setMedications }) => {
   const [interactions, setInteractions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [error, setError] = useState(null)
@@ -47,11 +47,7 @@ const Home = ({ medications, setMedications, handleMarkAsTaken }) => {
           <ul>
             {medications.map((med) => (
               <li key={med.id}>
-                <input 
-                  type='checkbox' 
-                  onChange={(e) => handleMarkAsTaken(med.id, format(new Date(), 'MM-dd-yyyy'), e.target.checked)}
-                  checked={Array.isArray(med.taken_days) && med.taken_days.includes(format(new Date(), 'MM-dd-yyyy'))}
-                /> {med.name} - {med.dosage}
+                <input type='checkbox' /> {med.name} - {med.dosage}
               </li>
             ))}
           </ul>

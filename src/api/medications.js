@@ -65,11 +65,11 @@ export const addMedication = async (medication) => {
 
 export const updateMedication = async (id, medication) => {
     const response = await fetch(`${API_URL}/medications/${id}/`, {
-          method: 'PUT',
+        method: 'PUT',
         headers: getAuthHeaders(),
-          body: JSON.stringify(medication),
-      })
-  return response.json()
+        body: JSON.stringify(medication),
+    })
+    return response.json()
 }
 
 export const deleteMedication = async (id) => {
@@ -117,17 +117,4 @@ export const getUserProfile = async () => {
         headers: getAuthHeaders(),
     })
     return response.json()
-}
-
-export const markMedicationAsTaken = async (id, date) => {
-  const response = await fetch(`${API_URL}/medications/${id}/mark_as_taken/`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: JSON.stringify({ date_taken: date }),
-  })
-  if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(`Network response was not ok: ${errorData.detail || 'Unknown error'}`)
-  }
-  return response.json()
 }
