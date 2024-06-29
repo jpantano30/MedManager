@@ -14,7 +14,7 @@ import RegisterPage from './pages/RegisterPage'
 import PrivateRoute from './components/PrivateRoute'
 import Header from './components/Header'
 import Footer from './components/Footer'
-// API Methods
+// Fetch Requests 
 import { getMedications } from './api/medications'
 
 

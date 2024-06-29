@@ -73,19 +73,26 @@ export const updateMedication = async (id, medication) => {
 }
 
 export const deleteMedication = async (id) => {
-    const response = await fetch(`${API_URL}/medications/${id}/`, {
-        method: 'DELETE',
-        headers: getAuthHeaders(),
-    })
-    if (response.status === 204) {
-      return {} // return an empty object if the response is 204 No Content
+  try {
+      const response = await fetch(`${API_URL}/medications/${id}/`, {
+          method: 'DELETE',
+          headers: getAuthHeaders(),
+      })
+
+      if (response.status === 204) {
+          return response.text()
+          // response.text prevents the console from logging 'Fetch failed loading: DELETE' when it does in fact perform the delete request. 
+          // the previous shown below logs fetch failed because it doesnt return a response with content. 
+          // return {} // Return an empty object if the response is 204 No Content
+      }
+
+      return response.json()
+  } catch (error) {
+      console.error('Error deleting medication:', error)
+      throw error
   }
-  if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(`Network response was not ok: ${errorData.detail || 'Unknown error'}`)
-  }
-    return response.json()
 }
+
 
 export const registerUser = async (user) => {
     const response = await fetch(`${API_URL}/users/`, {
