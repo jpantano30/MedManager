@@ -1,3 +1,4 @@
+
 import { useState } from 'react'
 import MedicationForm from '../components/MedicationForm'
 import MedicationList from '../components/MedicationList'
@@ -53,7 +54,7 @@ const MedManagement = ({ medications, setMedications, handleMarkAsTaken }) => {
             onEdit={handleEdit}
             medication={currentMedication}
             editing={editing}
-        />}
+          />}
         <MedicationList 
           medications={medications} 
           onDelete={handleDelete} 
@@ -66,3 +67,4 @@ const MedManagement = ({ medications, setMedications, handleMarkAsTaken }) => {
 }
 
 export default MedManagement
+

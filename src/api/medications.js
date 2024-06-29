@@ -65,11 +65,11 @@ export const addMedication = async (medication) => {
 
 export const updateMedication = async (id, medication) => {
     const response = await fetch(`${API_URL}/medications/${id}/`, {
-        method: 'PUT',
+          method: 'PUT',
         headers: getAuthHeaders(),
-        body: JSON.stringify(medication),
-    })
-    return response.json()
+          body: JSON.stringify(medication),
+      })
+  return response.json()
 }
 
 export const deleteMedication = async (id) => {

@@ -21,6 +21,7 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
 
     }
   }, [editing, medication])
+
   const handleSubmit = (e) => {
     e.preventDefault()
     const userId = localStorage.getItem('userId')
