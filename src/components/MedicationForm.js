@@ -71,7 +71,7 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
         <label>Refill Due Date</label>
         <input type='date' value={refillDueDate} onChange={(e) => setRefillDueDate(e.target.value)} />
       </div>
-      <button type='submit'>{editing ? 'Done' : 'Add Medication'} </button>
+      <button type='submit' className='AddMedBtn'>{editing ? 'Done' : 'Add Medication'} </button>
     </form>
   )
 }

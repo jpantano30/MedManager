@@ -1,50 +1,213 @@
 .App {
-  font-family: Arial, sans-serif;
+  font-family: 'Lato', sans-serif;
+  background-color: rgb(248, 249, 250);
+  color: rgb(33, 37, 41);
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 header {
-  background-color: #4CAF50;
+  background-color: rgb(52, 58, 64);
   color: white;
-  padding: 1em;
+  padding: 1rem;
   text-align: center;
 }
 
 nav {
-  margin-top: 1em;
+  margin-top: 0.5rem;
 }
 
 nav a {
-  margin: 0 10px;
+  margin: 0 15px;
   text-decoration: none;
-  color: white;
+  color: rgb(108, 202, 249);
+  font-weight: bold;
 }
 
 .content {
+  padding: 20px;
+  padding-bottom: 120px;
+  gap: 20px;
   display: flex;
-  justify-content: space-around;
-  padding: 1em;
+  justify-content: space-between;
 }
 
 .column {
-  width: 30%;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1;
 }
 
 footer {
-  background-color: #4CAF50;
+  background-color: rgb(52, 58, 64);
   color: white;
   text-align: center;
-  padding: 1em;
+  padding: 1rem;
   position: fixed;
-  width: 100%;
+  left: 0;
   bottom: 0;
+  width: 100%;
 }
 
-.settings {
+footer a {
+  color: rgb(108, 202, 249);
+  text-decoration: none;
+  margin: 0 10px;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+footer a:hover,
+footer a:focus {
+  color: white;
+  text-decoration: underline;
+}
+
+.logout {
+  background-color: rgb(108, 202, 249);;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout:hover {
+  background-color: rgb(0, 123, 255);
+}
+
+
+button {
+  background-color: rgb(0, 123, 255);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 2px
+}
+
+button:hover {
+  background-color: rgb(0, 86, 179);
+}
+
+.AddMedBtn {
+  margin-top: 10px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  padding: 8px;
+  border-bottom: 1px solid rgba(222, 226, 230, 1);
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+.error {
+  color: rgb(220, 53, 69);
+  background-color: rgb(248, 215, 218);
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
+
+.settings, .addNewBtn {
   margin-top: 2em;
 }
 
 .addNewBtn {
-  height: 50%;
   display: flex;
-  align-self: center;
+  justify-content: center;
 }
+
+
+.form-container {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 360px;
+  width: 100%; 
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+}
+
+
+form {
+  width: 100%; 
+}
+
+label {
+  display: block; 
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: rgb(33, 37, 41);
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  width: 100%;
+  padding: 8px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid rgba(206, 212, 218, 1);
+  border-radius: 4px;
+}
+
+
+.loading,
+.error-message {
+  color: rgb(220, 53, 69);
+  background-color: rgb(248, 215, 218);
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.medicationBtns {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.medicationBtns button {
+  padding: 5px 10px;
+}
+
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column;
+    padding-bottom: 150px;
+  }
+
+  .column {
+    width: 100%; 
+    margin-bottom: 20px;
+  }
+
+  .form-container {
+    margin: 20px auto; 
+    padding: 15px; 
+  }
+}
+
+

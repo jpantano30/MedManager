@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import MedicationForm from '../components/MedicationForm'
 import MedicationList from '../components/MedicationList'
 import { addMedication, deleteMedication, updateMedication, getMedications } from '../api/medications'
+import MedModal from '../components/MedModal/MedModal'
 
 const MedManagement = ({ medications, setMedications, user }) => {
   // eslint-disable-next-line
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState(false)
   const [currentMedication, setCurrentMedication] = useState(null)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (user){
@@ -48,6 +50,16 @@ const MedManagement = ({ medications, setMedications, user }) => {
     setShowForm(true)
   }
 
+  const handleMedicationClick = medication => {
+    setCurrentMedication(medication);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
+
   return (
     <div>
       <div className='content'>
@@ -61,6 +73,12 @@ const MedManagement = ({ medications, setMedications, user }) => {
           medications={medications} 
           onDelete={handleDelete} 
           onEdit={handleEditClick} 
+          onMedicationClick={handleMedicationClick}
+        />
+        <MedModal 
+          showModal={showModal}
+          handleClose={handleCloseModal}
+          medication={currentMedication}
         />
       </div>
     </div>

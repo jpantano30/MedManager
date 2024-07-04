@@ -19,7 +19,7 @@ const Home = ({ setMedications, safeFormat }) => {
       try {
         const fetchedMeds = await getMedications()
         setLocalMedications(fetchedMeds)
-        setMedications(fetchedMeds) // Update parent state if needed
+        setMedications(fetchedMeds)
         const fetchedLogs = await getMedicationLogs()
         setLogs(fetchedLogs)
         updateCheckedMeds(fetchedLogs, fetchedMeds)
