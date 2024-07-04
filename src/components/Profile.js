@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect} from 'react'
 import { getUserProfile } from '../api/medications'
 
-const Profile = ({ user, medications }) => {
+
+const Profile = ({ user  }) => {
   const [profile, setProfile] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -25,7 +26,6 @@ const Profile = ({ user, medications }) => {
       setLoading(false)
     }
   }, [user])
-  // fetchProfile function: if data is fetched, its stored in profile state using setProfile. if error occures, its stores in setError
 
   if (loading){
     return <div>Loading...</div>
@@ -38,26 +38,12 @@ const Profile = ({ user, medications }) => {
   if(!profile){ 
     return <div>No profile available.</div>
   }
-  // once the profile data is fetched and stored in state, the profile info is displayed. While it is being fetched (profile state is null) it will show this message. 
-  const medicationsTakenToday = medications.filter((med) => med.taken)
 
   return (
     <div>
       <h2>Profile</h2>
       <p>Username: {profile.username}</p>
       <p>Email: {profile.email}</p>
-      <h3>Medications Taken:</h3>
-      <ul>
-        {medicationsTakenToday.length > 0 ? (
-          medicationsTakenToday.map((med) => (
-            <li key={med.id}>
-              {med.name} - Taken Today
-            </li>
-          ))
-        ) : (
-          <li>No medications taken yet.</li>
-        )}
-      </ul>
     </div>
   )
 }

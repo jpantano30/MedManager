@@ -1,44 +1,71 @@
-import { useState, useEffect } from 'react'
-import { getMedications, markMedicationTaken } from '../api/medications'
-import { format, isWithinInterval, addDays } from 'date-fns'
+import React, { useState, useEffect } from 'react'
+import { getMedications, logMedication, getMedicationLogs } from '../api/medications'
+import { isWithinInterval, addDays } from 'date-fns'
 
-const Home = ({ medications, setMedications, onMedicationTaken }) => {
+const Home = ({ setMedications, safeFormat }) => {
+  const [medications, setLocalMedications] = useState([])
   const [interactions, setInteractions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [error, setError] = useState(null)
-
+  const [checkedMeds, setCheckedMeds] = useState(() => {
+    const today = new Date().toISOString().split('T')[0]
+    const storedData = JSON.parse(localStorage.getItem('checkedMeds')) || {}
+    return storedData.date === today ? storedData.meds : {}
+  })
+  const [logs, setLogs] = useState([])
 
   useEffect(() => {
-    const fetchMedications = async () => {
+    const fetchData = async () => {
       try {
-        const data = await getMedications()
-        setMedications(data)
-      } catch (error) {
-        console.log('Error fetching medications:', error)
-        setError('Error fetching medications. Please try again later.')
+        const fetchedMeds = await getMedications()
+        setLocalMedications(fetchedMeds)
+        setMedications(fetchedMeds) // Update parent state if needed
+        const fetchedLogs = await getMedicationLogs()
+        setLogs(fetchedLogs)
+        updateCheckedMeds(fetchedLogs, fetchedMeds)
+      } catch (err) {
+        console.error("Error fetching initial data:", err)
+        setError(err.message)
       }
     }
-    fetchMedications()
+    fetchData()
   }, [setMedications])
+
+  const updateCheckedMeds = (logs, meds) => {
+    const today = new Date().toISOString().split('T')[0]
+    const medicationsMap = meds.reduce((acc, med) => ({ ...acc, [med.id]: med.name }), {})
+    const medicationsTaken = logs.reduce((acc, log) => {
+      if (log.date === today && medicationsMap[log.medication]) {
+        acc[log.medication] = true
+      }
+      return acc
+    }, {})
+    setCheckedMeds(medicationsTaken)
+  }
+
+  const handleCheckboxChange = async (medication) => {
+    const today = new Date().toISOString().split('T')[0]
+    if (checkedMeds[medication.id]) return // prevent multiple checks for the same day
+    const newLog = { medication: medication.id, date: today, taken: true }
+    try {
+      await logMedication(newLog)
+      const newCheckedMeds = { ...checkedMeds, [medication.id]: true }
+      setCheckedMeds(newCheckedMeds)
+      setLogs([...logs, newLog])
+      localStorage.setItem('checkedMeds', JSON.stringify({ date: today, meds: newCheckedMeds }))
+    } catch (err) {
+      console.error('Error logging medication:', err)
+    }
+  }
 
   const handleSearch = async () => {
     try {
       const response = await fetch(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${searchTerm}&limit=10`)
       const data = await response.json()
       setInteractions(data.results)
-    } catch (error) {
-      console.log('Error fetching interactions:', error)
+    } catch (err) {
+      console.error('Error fetching interactions:', err)
       setError('Error fetching interactions. Please try again later.')
-    }
-  }
-
-  const handleMedicationTaken = async (medicationId) => {
-    try{
-      await markMedicationTaken(medicationId)
-      onMedicationTaken(medicationId)
-    } catch (error) {
-      console.log('Error marking medication as taken: ', error)
-      setError('Error marking medication as taken. Please try again later.')
     }
   }
 
@@ -46,53 +73,52 @@ const Home = ({ medications, setMedications, onMedicationTaken }) => {
     const refillDate = new Date(med.refill_due_date)
     const today = new Date()
     const nextWeek = addDays(today, 7)
-    return isWithinInterval(refillDate, {start: today, end: nextWeek })
+    return isWithinInterval(refillDate, { start: today, end: nextWeek })
   })
 
   return (
-    <div>
-      <div className='content'>
-        {error && <p className='error'>{error}</p>}
-        <div className='column'>
-          <h2>Today's Medications</h2>
-          <ul>
-            {medications.map((med) => (
-              <li key={med.id}>
-                <input 
-                  type='checkbox' 
-                  checked={med.taken}
-                  onChange={() => handleMedicationTaken(med.id)}
-                /> {' '}
-                {med.name} - {med.dosage}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className='column'>
-          <h2>Upcoming Refills</h2>
-          <ul>
-            {upcomingRefills.map((med) => (
-              <li key={med.id}>
-                {med.name} - Refill due: {format(new Date(med.refill_due_date), 'MM-dd-yyyy')}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className='column'>
-          <h2>Medication Interactions</h2>
-          <input
-            type='text'
-            placeholder='Search for interactions'
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <button onClick={handleSearch}>Search</button>
-          <ul>
-            {interactions.map((interaction, index) => (
-              <li key={index}>{interaction.description}</li>
-            ))}
-          </ul>
-        </div>
+    <div className='content'>
+      {error && <p className='error'>{error}</p>}
+      <div className='column'>
+        <h2>Today's Medications</h2>
+        {medications.map(med => (
+          <div key={med.id}>
+            <label>
+              <input
+                type="checkbox"
+                checked={checkedMeds[med.id] || false}
+                onChange={() => handleCheckboxChange(med)}
+                disabled={checkedMeds[med.id] || false}
+              />
+              {med.name}
+            </label>
+          </div>
+        ))}
+      </div>
+      <div className='column'>
+        <h2>Upcoming Refills</h2>
+        <ul>
+          {upcomingRefills.map(med => (
+            <li key={med.id}>
+              {med.name} - Refill due: {safeFormat(new Date(med.refill_due_date), 'MM-dd-yyyy')}
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className='column'>
+        <h2>Medication Interactions</h2>
+        <input
+          type='text'
+          placeholder='Search for interactions'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <button onClick={handleSearch}>Search</button>
+        <ul>
+          {interactions.map((interaction, index) => (
+            <li key={index}>{interaction.description}</li>
+          ))}
+        </ul>
       </div>
     </div>
   )

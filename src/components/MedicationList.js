@@ -1,8 +1,4 @@
 const MedicationList = ({ medications, onDelete, onEdit }) => {
-  if (!Array.isArray(medications)) {
-    return <div>No medications available.</div>
-  }
-
   return (
     <div>
       <h2>Medications</h2>

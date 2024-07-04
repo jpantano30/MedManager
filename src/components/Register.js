@@ -17,7 +17,7 @@ const Register = ({ onRegister }) => {
       onRegister(response)
       navigate('/login')
     } catch (error) {
-      console.error('Error registering:', error)
+      console.log('Error registering:', error)
       setError('Registration failed. Please check your details and try again.')
     }
   }

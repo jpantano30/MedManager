@@ -1,10 +1,10 @@
 import Profile from '../components/Profile'
 
-const ProfilePage = ({ user, medications }) => {
+const ProfilePage = ({ user}) => {
   return (
     <div>
       <h1>Profile</h1>
-      <Profile user={user} medications={medications} />
+      <Profile user={user} />
     </div>
   )
 }

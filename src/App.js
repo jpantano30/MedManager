@@ -1,42 +1,54 @@
 // Styling
 import './App.css'
-// Hooks 
-import { useEffect, useState } from 'react'
+
+// React and Hooks
+import { useEffect, useState, useCallback } from 'react'
+
 // React Router
 import { Route, Routes, useNavigate } from 'react-router-dom'
-// Pages 
+
+// Components and Pages
+import PrivateRoute from './components/PrivateRoute'
+import Header from './components/Header'
+import Footer from './components/Footer'
 import Home from './pages/Home'
 import ProfilePage from './pages/ProfilePage'
 import MedManagement from './pages/MedManagement'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
-// Components
-import PrivateRoute from './components/PrivateRoute'
-import Header from './components/Header'
-import Footer from './components/Footer'
-// Fetch Requests 
-import { getMedications, markMedicationTaken } from './api/medications'
+import MedicationLog from './pages/MedicationLog'
+
+// API
+import { getMedications } from './api/medications'
+
+// Date Formatting
+import { format } from 'date-fns'
 
 
 const App = () => {
   const [medications, setMedications] = useState([])
-  const [user, setUser] = useState(localStorage.getItem('token') ? true : null)
+  const [user, setUser] = useState(!!localStorage.getItem('token'))
 
   const navigate = useNavigate()
 
+  const safeFormat = useCallback((date, formatStr) => {
+    const parsedDate = new Date(date)
+    return format(parsedDate, formatStr)
+  }, [])
+
   useEffect(() => {
-    if (user) {
-      const fetchMedications = async () => {
-        try {
-          const data = await getMedications()
-          setMedications(data)
-        } catch (error) {
-          console.log('Error fetching medications: ', error)
-        }
+    const fetchMedicationsData = async () => {
+      try {
+        const meds = await getMedications()
+        console.log('fetched medications: ', meds)
+        setMedications(meds)
+      } catch (error) {
+        console.log('Error fetching medications or medications taken:', error)
       }
-      fetchMedications()
     }
-  }, [user])
+    fetchMedicationsData()
+  }, []) 
+
 
   const handleRegister = (user) => {
     setUser(user)
@@ -54,22 +66,10 @@ const App = () => {
     navigate('/login')
   } 
 
-  const handleMedicationTaken = async (medicationId) => {
-    try {
-      await markMedicationTaken(medicationId)
-      const updatedMedication = medications.map((med) => med.id === medicationId ? { ...med, taken: true } : med )
-      setMedications(updatedMedication)
-    } catch (error) {
-      console.log('Error marking medication as taken: ', error)
-    }
-  }
 
   return (
     <div className='App'>
-      <Header 
-        user={user} 
-        onLogout={handleLogout} 
-      />
+      <Header/>
       <Routes>
         <Route 
           path='/' 
@@ -78,9 +78,18 @@ const App = () => {
               <Home 
                 medications={medications} 
                 setMedications={setMedications} 
-                onMedicationTaken={handleMedicationTaken}
+                safeFormat={safeFormat}
                 user={user} 
               />
+            </PrivateRoute>
+          }
+        />
+        <Route 
+          path='/medication_logs'
+          element={
+            <PrivateRoute>
+              <MedicationLog 
+                setMedications={setMedications}/>
             </PrivateRoute>
           }
         />
@@ -90,7 +99,6 @@ const App = () => {
             <PrivateRoute>
               <ProfilePage 
                 user={user}
-                medications={medications}
               />
             </PrivateRoute>
           } 
@@ -124,7 +132,10 @@ const App = () => {
           } 
         />
       </Routes>
-      <Footer />
+      <Footer 
+        user={user} 
+        onLogout={handleLogout} 
+      />
     </div>
   )
 }

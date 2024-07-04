@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-const Header = ({ user, onLogout }) => {
+const Header = () => {
   return (
     <header>
       <h1>MedManager</h1>
@@ -8,16 +8,7 @@ const Header = ({ user, onLogout }) => {
         <Link to="/">Home</Link> | 
         <Link to="/profile">Profile</Link> | 
         <Link to="/medmanagement">Manage Medications</Link> | 
-        {user ? (
-          <>
-            <button onClick={onLogout}>Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login">Login</Link> | 
-            <Link to="/register">Register</Link>
-          </>
-        )}
+        <Link to="/medication_logs">Medication Log</Link>
       </nav>
     </header>
   )

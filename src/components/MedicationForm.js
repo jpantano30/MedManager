@@ -46,6 +46,7 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <h3> New Medication: </h3>
       <div>
         <label>Name</label>
         <input type='text' value={name} onChange={(e) => setName(e.target.value)} />

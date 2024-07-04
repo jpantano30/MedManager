@@ -4,6 +4,7 @@ import MedicationList from '../components/MedicationList'
 import { addMedication, deleteMedication, updateMedication, getMedications } from '../api/medications'
 
 const MedManagement = ({ medications, setMedications, user }) => {
+  // eslint-disable-next-line
   const [showForm, setShowForm] = useState(false)
   const [editing, setEditing] = useState(false)
   const [currentMedication, setCurrentMedication] = useState(null)
@@ -50,18 +51,12 @@ const MedManagement = ({ medications, setMedications, user }) => {
   return (
     <div>
       <div className='content'>
-        <button 
-          onClick={() => setShowForm(!showForm)}
-            className='addNewBtn'>
-              {editing ? 'Edit Medication' : 'Add New Medication'}
-        </button>
-        {showForm && 
         <MedicationForm 
           onAdd={handleAdd} 
           onEdit={handleEdit}
           medication={currentMedication}
           editing={editing}
-        />}
+        />
         <MedicationList 
           medications={medications} 
           onDelete={handleDelete} 
@@ -73,3 +68,5 @@ const MedManagement = ({ medications, setMedications, user }) => {
 }
 
 export default MedManagement
+
+
