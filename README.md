@@ -1,9 +1,8 @@
 <!-- markdownlint-disable MD033 -->
 # MedManager
 
-<div align="center">
 [![Home Page](./public/images/home_page_img.png)](http://localhost:3000/)
-</div>
+
 
 #
 
@@ -49,9 +48,9 @@ Heroku URl:
 
 #
 
-<details>
-<summary>Installation Steps:</summary>
-1. ** Fork & Clone the repository: **
+#### Installation Steps:
+
+1. **Fork & Clone the repository:**
   - In GitHub, navigate to the main page of the repository.
   - In the top-right corner of the page, click Fork.
   - Click the green "Code" button and copy the link.
@@ -59,19 +58,19 @@ Heroku URl:
   - Use the following command in your termial to clone the repository from Github.
   - git clone [YOUR_REPOSITORY_URL_HERE]
     - This must be done for both the front and back end repositories.
-2. ** Install Dependencies: **
+2. **Install Dependencies:**
   - Navigate to the front end repository and run the following command in your terminal:
     - npm i
   - Navigate to the back end repository and run the following command in your terminal:
     - pip install -r requirements.txt
-3. ** Run the application: **
+3. **Run the application:**
   - Navigate to the front end repository and run the following command in your terminal:
     - npm start
     - The application will run on port 3000 unless otherwise specified.
   - Navigate to the back end repository and run the following command in your terminal:
     - python manage.py runserver
     - The server will run on port 8000 unless otherwise specified.
-</details>
+
 
 #
 
@@ -84,58 +83,45 @@ Heroku URl:
  </ul>
 </details>
 
+#
+
 <details>
  <summary> 🎨 Wireframes </summary>
    <details> 
     <summary> ✏️ Rough Sketch </summary>
-    <!-- [![Wireframes](./public/images/home_profile_wireframes_medmanager.png)]
-    [![Wireframes](./public/images/medmanagment_wireframe.png)] -->
-    <img src="/public/images/home_profile_wireframes_medmanager.png" alt="Wireframes">
-    <img src="/public/images/home_page_img.png" alt="Wireframes">
+      <img src="/public/images/home_profile_wireframes_medmanager.png" alt="Wireframes">
+      <img src="/public/images/medmanagment_wireframe.png.png" alt="Wireframes">
    </details>
 </details>
 
+#
 
-entity relationship diagrams
+#### Entity Relationship Diagrams
+
+![ERD](./public/images/ERD.png)
+
+#
 
 
-unsolved problems or future features.
+#### Unsolved Problems & Challenges
 
+- **Authentication Issues:** Although users can successfully register and sign in, the app allows unauthenticated access, resulting in error displays when accessed without logging in.
+- **Date Formatting:** Challenges encountered in formatting date information when communicating between the frontend and the backend.
+- **API Result Formatting:** Difficulties in formatting the results retrieved from the interaction checker to make them more user-friendly.
+- **CRUD Operations:** Challenges with fetch requests while managing CRUD operations for medications using the Django backend. Specifically, DELETE requests were not completing successfully, even though a 204 No Content response was received. This issue was resolved by using `response.text()` in the return statement instead of returning an empty object.
 
+#
 
 <details> 
  <summary> ❓ Future Features </summary>
-  Next steps planned: 
  <ul>
-  <li> Fixes to above unsolved problems. </li>
-  <li> Add a flip feature to the resume boxes. </li>
-  <li> Add captions on hover to the carousel on the about me page. </li>
-  <li> Add play against the computer feature in Tic-Tac-Toe. </li>
-  <li> Add CSS transitions and animations. </li>
-  <li> Create a cake decorating game. </li>
+  <li> Address the aforementioned unsolved problems. </li>
+  <li> Enable guest access to the app without errors. </li>
+  <li> Improve the readability of the interaction search results. </li>
+  <li> Introduce the ability to edit logged medications. </li>
+  <li> Enhance the overall styling of the app. </li>
+  <li> Enable notifications for scheduled medication intake and refill reminders. </li>
  </ul>
 </details>
 
 #
-
-
-
-# Challenges
-<ul>
-  <li>Figuring out how to optimally work with others on a single project</li>
-  <li>Search functionality</li>
-  <li>Integrating Frontend with Backend</li>
-  <li>Login authentication and unique users. We faced challenges implementing JWT, which resulted in our app not supporting user-specific workout management. Currently, any workout created, edited, or deleted is visible across all user accounts.</li>
-  <li>Encountered difficulties with deployment but ultimately resolved. </li>
-</ul>
-
-#
-
-
-
-# Future Features
-  - Implement solutions to the challenges that have not yet been resolved
-  - Integration with Spotify API to generate workout playlists
-  - Fitness tracker for logging workout sessions
-  - Enhanced user profiles with email verification
-  - Advanced Styling
