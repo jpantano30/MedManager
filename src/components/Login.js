@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../api/medications'
+import { loginUser } from '../services/medications'
 
 const Login = ({ onLogin }) => {
   const [username, setUsername] = useState('')

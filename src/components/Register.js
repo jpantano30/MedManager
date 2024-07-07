@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { registerUser } from '../api/medications'
+import { registerUser } from '../services/medications'
 import { useNavigate } from 'react-router-dom'
 
 const Register = ({ onRegister }) => {

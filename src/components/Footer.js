@@ -14,7 +14,6 @@ const Footer = ({ user, onLogout }) => {
               <Link to="/register">Register</Link>
             </>
           )}
-        <p>&copy; 2024 MedManager</p>
       </div>
     </footer>
   )

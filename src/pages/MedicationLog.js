@@ -1,5 +1,5 @@
 import { useState, useEffect } from'react'
-import { getMedicationLogs, getMedications } from '../api/medications'
+import { getMedicationLogs, getMedications } from '../services/medications'
 
 const MedicationLog = ({ setMedications }) => {
   const [logs, setLogs] = useState([])

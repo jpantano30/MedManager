@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { getMedications, logMedication, getMedicationLogs } from '../api/medications'
+import { getMedications, logMedication, getMedicationLogs } from '../services/medications'
 import { isWithinInterval, addDays } from 'date-fns'
 
 const Home = ({ setMedications, safeFormat }) => {

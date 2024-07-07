@@ -1,6 +1,7 @@
 import Profile from '../components/Profile'
+import { updateUserProfile } from '../services/medications'
 
-const ProfilePage = ({ user}) => {
+const ProfilePage = ({ user }) => {
   return (
     <div>
       <Profile user={user} />

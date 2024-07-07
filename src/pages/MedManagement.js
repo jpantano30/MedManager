@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import MedicationForm from '../components/MedicationForm'
 import MedicationList from '../components/MedicationList'
-import { addMedication, deleteMedication, updateMedication, getMedications } from '../api/medications'
+import { addMedication, deleteMedication, updateMedication, getMedications } from '../services/medications'
 import MedModal from '../components/MedModal/MedModal'
 
 const MedManagement = ({ medications, setMedications, user }) => {
@@ -51,13 +51,13 @@ const MedManagement = ({ medications, setMedications, user }) => {
   }
 
   const handleMedicationClick = medication => {
-    setCurrentMedication(medication);
-    setShowModal(true);
-  };
+    setCurrentMedication(medication)
+    setShowModal(true)
+  }
 
   const handleCloseModal = () => {
-    setShowModal(false);
-  };
+    setShowModal(false)
+  }
 
 
   return (

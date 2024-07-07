@@ -19,7 +19,7 @@ import RegisterPage from './pages/RegisterPage'
 import MedicationLog from './pages/MedicationLog'
 
 // API
-import { getMedications } from './api/medications'
+import { getMedications } from './services/medications'
 
 // Date Formatting
 import { format } from 'date-fns'
