@@ -9,7 +9,7 @@
 # Deployment Link
 <a href="https://medmanager.netlify.app/login"> MedMangager</a>
 
-Heroku URl:
+Heroku URL:
 <a href="https://medmanager-b797ac84ca9c.herokuapp.com">Backend URL</a>
 
 Backend Repository:
