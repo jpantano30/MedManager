@@ -57,7 +57,17 @@ const fetchWithAuth = async (url, options = {}) => {
     let response = await fetch(url, { ...options, headers })
 
     if (response.status === 401) {
-        response = await handleUnauthorized({ url, options })
+        try {
+            const newToken = await refreshToken()
+            headers = {
+                ...getAuthHeaders(),
+                'Authorization': `Bearer ${newToken}`,
+            }
+            response = await fetch(url, { ...options, headers })
+        } catch (error) {
+            console.error('Error refreshing token:', error)
+            throw new Error('Unauthorized')
+        }
     }
 
     return response
