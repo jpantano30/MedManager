@@ -1,16 +1,19 @@
 <!-- markdownlint-disable -->
 # MedManager
 
-[![Home Page](./public/images/homepage_img.png)](http://localhost:3000/)
+[![Home Page](./public/images/homepage_img.png)](https://medmanager.netlify.app/login)
 
 
 #
 
 # Deployment Link
-<a href=""> MedMangager</a>
+<a href="https://medmanager.netlify.app/login"> MedMangager</a>
 
 Heroku URl:
-<a href="">Backend URL</a>
+<a href="https://medmanager-b797ac84ca9c.herokuapp.com">Backend URL</a>
+
+Backend Repository:
+<a href="https://github.com/jpantano30/MedManager-Backend">Backend Repository</a>
 
 #
 
@@ -109,7 +112,7 @@ Heroku URl:
 - **Date Formatting:** Challenges encountered in formatting date information when communicating between the frontend and the backend.
 - **API Result Formatting:** Difficulties in formatting the results retrieved from the interaction checker to make them more user-friendly.
 - **CRUD Operations:** Challenges with fetch requests while managing CRUD operations for medications using the Django backend. Specifically, DELETE requests were not completing successfully, even though a 204 No Content response was received. This issue was resolved by using `response.text()` in the return statement instead of returning an empty object.
-- **Deployment Issues:** Issues with deployment of the app to Heroku and Netlify. Prior to deployment the app worked but after I ran into many errors. 
+- **Deployment Issues:** Issues with deployment of the app to Heroku and Netlify. Prior to deployment the app worked but after I ran into many errors. The app currently works but if you try to open the Heroku deployed app, it will not load and responds with a 404 (Not Found).
 
 #
 
