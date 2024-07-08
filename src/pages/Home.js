@@ -6,7 +6,6 @@ const Home = ({ setMedications, safeFormat }) => {
   const [medications, setLocalMedications] = useState([])
   const [interactions, setInteractions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
-  const [error, setError] = useState(null)
   const [checkedMeds, setCheckedMeds] = useState(() => {
     const today = new Date().toISOString().split('T')[0]
     const storedData = JSON.parse(localStorage.getItem('checkedMeds')) || {}
@@ -24,8 +23,7 @@ const Home = ({ setMedications, safeFormat }) => {
         setLogs(fetchedLogs)
         updateCheckedMeds(fetchedLogs, fetchedMeds)
       } catch (err) {
-        console.error("Error fetching initial data:", err)
-        setError(err.message)
+        console.log("Error fetching initial data:", err)
       }
     }
     fetchData()
@@ -54,7 +52,7 @@ const Home = ({ setMedications, safeFormat }) => {
       setLogs([...logs, newLog])
       localStorage.setItem('checkedMeds', JSON.stringify({ date: today, meds: newCheckedMeds }))
     } catch (err) {
-      console.error('Error logging medication:', err)
+      console.log('Error logging medication:', err)
     }
   }
 
@@ -64,8 +62,7 @@ const Home = ({ setMedications, safeFormat }) => {
       const data = await response.json()
       setInteractions(data.results)
     } catch (err) {
-      console.error('Error fetching interactions:', err)
-      setError('Error fetching interactions. Please try again later.')
+      console.log('Error fetching interactions:', err)
     }
   }
 
@@ -78,7 +75,6 @@ const Home = ({ setMedications, safeFormat }) => {
 
   return (
     <div className='content'>
-      {error && <p className='error'>{error}</p>}
       <div className='column'>
         <h2>Today's Medications</h2>
         {medications.map(med => (
