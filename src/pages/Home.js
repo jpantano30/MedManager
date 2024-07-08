@@ -20,8 +20,13 @@ const Home = ({ setMedications, safeFormat }) => {
         setLocalMedications(fetchedMeds)
         setMedications(fetchedMeds)
         const fetchedLogs = await getMedicationLogs()
-        setLogs(fetchedLogs)
-        updateCheckedMeds(fetchedLogs, fetchedMeds)
+
+        if (Array.isArray(fetchedLogs)) {
+          setLogs(fetchedLogs);
+          updateCheckedMeds(fetchedLogs, fetchedMeds);
+        } else {
+          console.error("Fetched logs are not an array:", fetchedLogs);
+        }
       } catch (err) {
         console.log("Error fetching initial data:", err)
       }
