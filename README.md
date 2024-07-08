@@ -1,7 +1,7 @@
 <!-- markdownlint-disable MD033 -->
 # MedManager
 
-[![Home Page](./public/images/home_page_img.png)](http://localhost:3000/)
+[![Home Page](./public/images/homepage_img.png)](http://localhost:3000/)
 
 
 #

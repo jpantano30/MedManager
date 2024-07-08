@@ -1,4 +1,5 @@
 import Profile from '../components/Profile'
+// eslint-disable-next-line
 import { updateUserProfile } from '../services/medications'
 
 const ProfilePage = ({ user }) => {
