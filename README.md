@@ -1,4 +1,4 @@
-<!-- markdownlint-disable MD033 -->
+<!-- markdownlint-disable -->
 # MedManager
 
 [![Home Page](./public/images/homepage_img.png)](http://localhost:3000/)
