@@ -34,24 +34,6 @@ const refreshToken = async () => {
 }
 // this function handles refreshing the token when it expires. 1. gets refresh token from local storage. 2. makes a post request to the token refresh endpoint. 3. updates local storage with new token and returns the token
 
-const handleUnauthorized = async (originalRequest) => {
-    try {
-        const newToken = await refreshToken()
-        const headers = {
-            ...getAuthHeaders(),
-            'Authorization': `Bearer ${newToken}`,
-        }
-        const response = await fetch(originalRequest.url, {
-            ...originalRequest.options,
-            headers,
-        })
-        return response
-    } catch (error) {
-        console.error('Error handling unauthorized request:', error)
-        throw error
-    }
-}
-
 const fetchWithAuth = async (url, options = {}) => {
     let headers = getAuthHeaders()
     let response = await fetch(url, { ...options, headers })
@@ -59,6 +41,7 @@ const fetchWithAuth = async (url, options = {}) => {
     if (response.status === 401) {
         try {
             const newToken = await refreshToken()
+            localStorage.setItem('token', newToken)
             headers = {
                 ...getAuthHeaders(),
                 'Authorization': `Bearer ${newToken}`,
