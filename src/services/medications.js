@@ -1,4 +1,6 @@
-const API_URL = 'https://medmanager-b797ac84ca9c.herokuapp.com/api'
+// const API_URL = 'https://medmanager-b797ac84ca9c.herokuapp.com/api'
+
+const API_URL = `${process.env.REACT_APP_API_URL}/api`
 
 
 const getAuthHeaders = () => {
