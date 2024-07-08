@@ -11,71 +11,86 @@ const getAuthHeaders = () => {
 
 const refreshToken = async () => {
     const refresh = localStorage.getItem('refreshToken')
-    const response = await fetch(`${API_URL}/token/refresh/`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ refresh }),
-    })
-    const data = await response.json()
-    localStorage.setItem('token', data.access)
-    return data.access
+    try {
+        const response = await fetch(`${API_URL}/token/refresh/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ refresh }),
+        })
+
+        if (!response.ok) {
+            throw new Error('Could not refresh token')
+        }
+
+        const data = await response.json()
+        localStorage.setItem('token', data.access)
+        return data.access
+    } catch (error) {
+        console.log('Error refreshing token:', error)
+        throw error
+    }
 }
 // this function handles refreshing the token when it expires. 1. gets refresh token from local storage. 2. makes a post request to the token refresh endpoint. 3. updates local storage with new token and returns the token
 
-export const getMedications = async () => {
-    let headers = getAuthHeaders()
-    let response = await fetch(`${API_URL}/medications/`, { headers })
-    
-    if (response.status === 401) {
+const handleUnauthorized = async (originalRequest) => {
+    try {
         const newToken = await refreshToken()
-        headers = {
-            'Content-Type': 'application/json',
+        const headers = {
+            ...getAuthHeaders(),
             'Authorization': `Bearer ${newToken}`,
         }
-        response = await fetch(`${API_URL}/medications/`, { headers })
+        const response = await fetch(originalRequest.url, {
+            ...originalRequest.options,
+            headers,
+        })
+        return response
+    } catch (error) {
+        console.error('Error handling unauthorized request:', error)
+        throw error
     }
+}
+
+const fetchWithAuth = async (url, options = {}) => {
+    let headers = getAuthHeaders()
+    let response = await fetch(url, { ...options, headers })
+
+    if (response.status === 401) {
+        response = await handleUnauthorized({ url, options })
+    }
+
+    return response
+}
+
+export const getMedications = async () => {
+    const response = await fetchWithAuth(`${API_URL}/medications/`)
     const data = await response.json()
     return Array.isArray(data) ? data : []
 }
-// retrieves auth headers, makes a get request, if 401 unauthorized - token might have expired, it refreshed the toeksn and retried get request with new token. 
+// this function fetches medications from the api. it uses fetchWithAuth to add the authorization header to the request. it then returns the response as json data. if the response is not an array, it returns an empty array. 
 
 export const addMedication = async (medication) => {
-    const response = await fetch(`${API_URL}/medications/`, {
+    const response = await fetchWithAuth(`${API_URL}/medications/`, {
         method: 'POST',
-        headers: getAuthHeaders(),
         body: JSON.stringify(medication),
     })
     return response.json()
 }
 
 export const updateMedication = async (id, medication) => {
-    const response = await fetch(`${API_URL}/medications/${id}/`, {
+    const response = await fetchWithAuth(`${API_URL}/medications/${id}/`, {
         method: 'PUT',
-        headers: getAuthHeaders(),
         body: JSON.stringify(medication),
     })
     return response.json()
 }
 
 export const deleteMedication = async (id) => {
-    try {
-        const response = await fetch(`${API_URL}/medications/${id}/`, {
-            method: 'DELETE',
-            headers: getAuthHeaders(),
-        })
-        if (response.status === 204) {
-            return response.text()
-            // response.text prevents the console from logging 'Fetch failed loading: DELETE' when it does in fact perform the delete request. 
-            // the previous shown below logs fetch failed because it doesnt return a response with content. 
-            // return {} // Return an empty object if the response is 204 No Content
-        }
-        return response.json()
-    } catch (error) {
-        console.error('Error deleting medication:', error)
-        throw error
-    }
+    const response = await fetchWithAuth(`${API_URL}/medications/${id}/`, {
+        method: 'DELETE',
+    })
+    return response.text()
 }
 
 export const registerUser = async (user) => {
@@ -104,16 +119,13 @@ export const loginUser = async (user) => {
 }
 
 export const getUserProfile = async () => {
-    const response = await fetch(`${API_URL}/users/profile/`, {
-        headers: getAuthHeaders(),
-    })
+    const response = await fetchWithAuth(`${API_URL}/users/profile/`)
     return response.json()
 }
 
 export const updateUserProfile = async (profile) => {
-    const response = await fetch(`${API_URL}/users/profile/`, {
+    const response = await fetchWithAuth(`${API_URL}/users/profile/`, {
         method: 'PUT',
-        headers: getAuthHeaders(),
         body: JSON.stringify(profile),
     })
     if (!response.ok) {
@@ -130,18 +142,15 @@ export const updateUserProfile = async (profile) => {
 }
 
 export const logMedication = async (log) => {
-    const response = await fetch(`${API_URL}/medication_logs/`, {
+    const response = await fetchWithAuth(`${API_URL}/medication_logs/`, {
         method: 'POST',
-        headers: getAuthHeaders(),
         body: JSON.stringify(log),
     })
     return response.json()
 }
 
 export const getMedicationLogs = async () => {
-    const response = await fetch(`${API_URL}/medication_logs/`, {
-        headers: getAuthHeaders(),
-    })
+    const response = await fetchWithAuth(`${API_URL}/medication_logs/`)
     const data = await response.json()
     return data
 }
