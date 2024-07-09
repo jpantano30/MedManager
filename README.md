@@ -114,6 +114,7 @@ Backend Repository:
 - **CRUD Operations:** Challenges with fetch requests while managing CRUD operations for medications using the Django backend. Specifically, DELETE requests were not completing successfully, even though a 204 No Content response was received. This issue was resolved by using `response.text()` in the return statement instead of returning an empty object.
 - **Deployment Issues:** Issues with deployment of the app to Heroku and Netlify. Prior to deployment the app worked but after I ran into many errors. The app currently works but if you try to open the Heroku deployed app, it will not load and responds with a 404 (Not Found).
 - **Link to Deployed App:** Issues with the link to the deployed app not opening up to the login page. 
+- **Unsolved Problems:** Issues with the app not working correctly with accounts that have been created. Possibly something to do with the time logged in. 
 
 #
 
@@ -128,6 +129,7 @@ Backend Repository:
   <li> Reformat medication interaction search results for better user experience. </li>
   <li> Display the medication log in a more user-friendly format. </li>
   <li> Redirect users to the login page upon their first visit, making the rest of the app inaccessible unless using guest access or logged in. </li>
+  <li> When a refill due date passes, add the functionality so that it automatically resets it to the next month. </li>
  </ul>
 </details>
 
