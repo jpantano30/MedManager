@@ -2,7 +2,7 @@ import './MedModal.css'
 
 const MedModal = ({ showModal, handleClose, medication }) => {
   if (!showModal) {
-    return null;
+    return null
   }
 
   return (
@@ -23,7 +23,7 @@ const MedModal = ({ showModal, handleClose, medication }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MedModal;
+export default MedModal

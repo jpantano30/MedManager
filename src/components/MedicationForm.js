@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 
+//props 
 const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
+  // declare state variables and their set functions 
+    // each state is variable is initalized with an empty string. 
   const [name, setName] = useState('')
   const [dosage, setDosage] = useState('')
   const [frequency, setFrequency] = useState('')
@@ -8,6 +11,7 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
   const [endDate, setEndDate] = useState('')
   const [refillDueDate, setRefillDueDate] = useState('')
 
+  // useEffect hook to set state variables based on props. It runs whenever the editing or medication props change. If the component is in editing mode (editing = true) and a med object is provided, it sets the state variables to the corresponding vlaues from the medication object. If there is no value then it defaults to an empty string. 
   useEffect(() => {
     if (editing && medication) {
       setName(medication.name || '')
@@ -19,6 +23,8 @@ const MedicationForm = ({ onAdd, onEdit, medication, editing }) => {
     }
   }, [editing, medication])
 
+
+   // handles form submission. It prevents the default form submission behavior. It retrieves the userId from localStorage. It then creates a newMedication object with current state values and userId. It calls the onAdd or onEdit function depending on whether the component is in editing mode or not. If passes the medication.id and newMedication object to onEdit, or just newMedication to onAdd. It also resets the state variables to an empty string after submission. 
   const handleSubmit = (e) => {
     e.preventDefault()
     const userId = localStorage.getItem('userId')

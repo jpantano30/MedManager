@@ -128,6 +128,8 @@ Backend Repository:
   <li> Display the medication log in a more user-friendly format. </li>
   <li> Redirect users to the login page upon their first visit, making the rest of the app inaccessible unless using guest access or logged in. </li>
   <li> When a refill due date passes, add the functionality so that it automatically resets it to the next month. </li>
+  <li> Implement better Error handling for all fetch requests. </li>
+  <li> Change the usage of local storage </li>
  </ul>
 </details>
 
