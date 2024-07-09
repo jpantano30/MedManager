@@ -106,7 +106,7 @@ Backend Repository:
 
 #### Unsolved Problems & Challenges
 
-- **Authentication Issues:** Although users can successfully register and sign in, the app allows unauthenticated access, resulting in error displays when accessed without logging in. Issues with the app not working correctly with accounts that have been created. Possibly something to do with the time logged in. The app also will automatically change after refreshes as if it has been logged in when it was previously logged out. 
+- **Authentication Issues:** Although users can successfully register and sign in, the app allows unauthenticated access, resulting in error displays when accessed without logging in. Issues with the app not working correctly with accounts that have been created. Possibly something to do with the time logged in. On the first refresh, the app goes to this link 'https://medmanager.netlify.app/index.html', on the second refresh it is still on that page but the logout button shows up as if a user has signed in. 
 - **Date Formatting:** Challenges encountered in formatting date information when communicating between the frontend and the backend.
 - **API Result Formatting:** Difficulties in formatting the results retrieved from the interaction checker to make them more user-friendly.
 - **CRUD Operations:** Challenges with fetch requests while managing CRUD operations for medications using the Django backend. Specifically, DELETE requests were not completing successfully, even though a 204 No Content response was received. This issue was resolved by using `response.text()` in the return statement instead of returning an empty object.
