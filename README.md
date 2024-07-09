@@ -106,13 +106,12 @@ Backend Repository:
 
 #### Unsolved Problems & Challenges
 
-- **Authentication Issues:** Although users can successfully register and sign in, the app allows unauthenticated access, resulting in error displays when accessed without logging in.
+- **Authentication Issues:** Although users can successfully register and sign in, the app allows unauthenticated access, resulting in error displays when accessed without logging in.Issues with the app not working correctly with accounts that have been created. Possibly something to do with the time logged in.
 - **Date Formatting:** Challenges encountered in formatting date information when communicating between the frontend and the backend.
 - **API Result Formatting:** Difficulties in formatting the results retrieved from the interaction checker to make them more user-friendly.
 - **CRUD Operations:** Challenges with fetch requests while managing CRUD operations for medications using the Django backend. Specifically, DELETE requests were not completing successfully, even though a 204 No Content response was received. This issue was resolved by using `response.text()` in the return statement instead of returning an empty object.
 - **Deployment Issues:** Issues with deployment of the app to Heroku and Netlify. Prior to deployment the app worked but after I ran into many errors. The app currently works but if you try to open the Heroku deployed app, it will not load and responds with a 404 (Not Found).
 - **Link to Deployed App:** Issues with the link to the deployed app not opening up to the login page. 
-- **Unsolved Problems:** Issues with the app not working correctly with accounts that have been created. Possibly something to do with the time logged in. 
 
 #
 
@@ -120,6 +119,7 @@ Backend Repository:
  <summary> ❓ Future Features </summary>
  <ul>
   <li> Resolve the existing unsolved problems. </li>
+  <li> Add the ability for users to check multiple boxes for one medication that has to be taken multiple times a day </li>
   <li> Ensure guest access to the app is error-free. </li>
   <li> Add functionality to edit logged medications. </li>
   <li> Enhance the overall styling of the app. </li>
@@ -129,7 +129,7 @@ Backend Repository:
   <li> Redirect users to the login page upon their first visit, making the rest of the app inaccessible unless using guest access or logged in. </li>
   <li> When a refill due date passes, add the functionality so that it automatically resets it to the next month. </li>
   <li> Implement better Error handling for all fetch requests. </li>
-  <li> Change the usage of local storage </li>
+  <li> Change the usage of local storage possibly. Need to look into it. </li>
  </ul>
 </details>
 
