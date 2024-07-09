@@ -1,11 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { getMedications, logMedication, getMedicationLogs } from '../services/medications'
 import { isWithinInterval, addDays } from 'date-fns'
+import Interactions from '../components/Interactions'
 
 const Home = ({ setMedications, safeFormat }) => {
   const [medications, setLocalMedications] = useState([])
   const [interactions, setInteractions] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
+  const [drugName, setDrugName] = useState('')
+  const [interactionsTable, setInteractionsTable] = useState([])
   const [checkedMeds, setCheckedMeds] = useState(() => {
     const today = new Date().toISOString().split('T')[0]
     const storedData = JSON.parse(localStorage.getItem('checkedMeds')) || {}
@@ -63,9 +66,22 @@ const Home = ({ setMedications, safeFormat }) => {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${searchTerm}&limit=10`)
+      const response = await fetch(`https://api.fda.gov/drug/label.json?search=openfda.brand_name:${searchTerm}&limit=1`)
       const data = await response.json()
-      setInteractions(data.results)
+      console.log('API Response:', data)
+
+      const interactionData = data.results[0]?.drug_interactions || []
+      console.log('Interactions data:', interactionData)
+
+      const fetchedDrugName = data.results[0]?.openfda?.brand_name[0] || data.results[0]?.openfda?.generic_name[0] || 'Unknown Drug'
+      console.log('Drug Name:', fetchedDrugName)
+
+      const interactionsTable = data.results[0]?.drug_interactions_table || []
+      console.log('Interactions table:', interactionsTable)
+
+      setInteractions(interactionData)
+      setDrugName(fetchedDrugName)
+      setInteractionsTable(interactionsTable)
     } catch (err) {
       console.log('Error fetching interactions:', err)
     }
@@ -115,11 +131,7 @@ const Home = ({ setMedications, safeFormat }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
         <button onClick={handleSearch}>Search</button>
-        <ul>
-          {interactions.map((interaction, index) => (
-            <li key={index}>{interaction.description}</li>
-          ))}
-        </ul>
+        <Interactions drugName={drugName} interactions={interactions} interactionsTable={interactionsTable} />
       </div>
     </div>
   )
