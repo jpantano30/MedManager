@@ -119,7 +119,7 @@ Backend Repository:
  <summary> ❓ Future Features </summary>
  <ul>
   <li> Resolve the existing unsolved problems. </li>
-  <li> Add the ability for users to check multiple boxes for one medication that has to be taken multiple times a day </li>
+  <li> Add the ability for users to check multiple boxes for each medication if it is taken more than once a day. </li>
   <li> Ensure guest access to the app is error-free. </li>
   <li> Add functionality to edit logged medications. </li>
   <li> Enhance the overall styling of the app. </li>
