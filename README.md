@@ -119,12 +119,13 @@ Backend Repository:
 <details> 
  <summary> ❓ Future Features </summary>
  <ul>
-  <li> Address the aforementioned unsolved problems. </li>
-  <li> Enable guest access to the app without errors. </li>
-  <li> Improve the readability of the interaction search results. </li>
-  <li> Introduce the ability to edit logged medications. </li>
+  <li> Resolve the existing unsolved problems. </li>
+  <li> Ensure guest access to the app is error-free. </li>
+  <li> Add functionality to edit logged medications. </li>
   <li> Enhance the overall styling of the app. </li>
-  <li> Enable notifications for scheduled medication intake and refill reminders. </li>
+  <li> Implement notifications for scheduled medication intake and refill reminders. </li>
+  <li> Reformat medication interaction search results for better user experience. </li>
+  <li> Display the medication log in a more user-friendly format. </li>
  </ul>
 </details>
 
